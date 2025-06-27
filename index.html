@@ -18,6 +18,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      overflow-x: hidden;
     }
     a {
       color: #f0c419;
@@ -76,6 +77,9 @@
       transition: box-shadow 0.3s ease;
       cursor: pointer;
       user-select: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .product:hover {
       box-shadow: 0 0 25px #f0c419cc;
@@ -100,6 +104,7 @@
       color: #222;
       cursor: pointer;
       transition: background 0.2s ease;
+      margin-bottom: 0.3rem;
     }
     .product button:hover {
       background: #d1a510;
@@ -162,6 +167,12 @@
       border-radius: 10px;
       box-shadow: 0 0 15px #f0c419aa;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 400px;
+      margin: 0 auto;
     }
     .custom-plugin h3 {
       margin-bottom: 1rem;
@@ -170,6 +181,7 @@
     .custom-plugin p {
       margin-bottom: 1.5rem;
       color: #ddd;
+      font-size: 1rem;
     }
     .custom-plugin button {
       background: #f0c419;
@@ -181,6 +193,8 @@
       cursor: pointer;
       transition: background 0.2s ease;
       font-size: 1.1rem;
+      width: 100%;
+      max-width: 180px;
     }
     .custom-plugin button:hover {
       background: #d1a510;
@@ -196,6 +210,112 @@
       user-select: none;
     }
 
+    /* Warenkorb Sidebar */
+    #cart {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 320px;
+      height: 100vh;
+      background: #222;
+      box-shadow: -3px 0 15px #f0c419bb;
+      padding: 1.5rem;
+      transition: right 0.3s ease;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
+    #cart.active {
+      right: 0;
+    }
+    #cart h2 {
+      color: #f0c419;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #f0c419;
+      padding-bottom: 0.5rem;
+    }
+    #cart .close-cart {
+      background: transparent;
+      border: none;
+      font-size: 1.8rem;
+      color: #f0c419;
+      cursor: pointer;
+      align-self: flex-end;
+      margin-bottom: 1rem;
+    }
+    #cart ul {
+      flex-grow: 1;
+      overflow-y: auto;
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+    #cart ul li {
+      background: #333;
+      margin-bottom: 0.8rem;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #eee;
+    }
+    #cart ul li button.remove-item {
+      background: #d14444;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      padding: 0.3rem 0.7rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.2s ease;
+    }
+    #cart ul li button.remove-item:hover {
+      background: #a82b2b;
+    }
+    #cart .total {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #f0c419;
+      text-align: right;
+    }
+    #cart button.buy-btn {
+      background: #f0c419;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-weight: 700;
+      color: #222;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      width: 100%;
+      font-size: 1.1rem;
+    }
+    #cart button.buy-btn:hover {
+      background: #d1a510;
+    }
+
+    /* Warenkorb Button am Header */
+    #cart-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #f0c419;
+      color: #222;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 300;
+      box-shadow: 0 0 10px #f0c419aa;
+      transition: background 0.2s ease;
+      user-select: none;
+    }
+    #cart-toggle:hover {
+      background: #d1a510;
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
       header {
@@ -204,13 +324,28 @@
       .product h3 {
         font-size: 1.2rem;
       }
+      #cart {
+        width: 100vw;
+        right: -100vw;
+      }
+      #cart.active {
+        right: 0;
+      }
+      #cart button.buy-btn {
+        font-size: 1.3rem;
+      }
+      #cart-toggle {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
+      }
     }
-
   </style>
 </head>
 <body>
 
 <header>Minecraft Server Shop</header>
+
+<button id="cart-toggle" aria-label="Warenkorb öffnen">Warenkorb (0)</button>
 
 <main>
 
@@ -227,118 +362,74 @@
     <h2>Custom Plugin kaufen</h2>
     <div class="custom-plugin">
       <h3>Maßgeschneiderte Plugins für deinen Server</h3>
-      <p>Du möchtest ein individuelles Plugin mit speziellen Features? Kein Problem! Wir erstellen dir dein Wunsch-Plugin nach deinen Vorstellungen.</p>
-      <button onclick="alert('Kontaktieren Sie uns auf Discord oder per E-Mail für Custom Plugins!')">Jetzt anfragen</button>
+      <p>Du möchtest ein individuelles Plugin mit speziellen Features? Kein Problem! Wir erstellen dir dein Wunsch-Plugin im gleichen Stil.</p>
+      <button id="buy-custom">Jetzt anfragen</button>
     </div>
   </section>
 
   <!-- Über Uns -->
   <section id="about">
     <h2>Über Uns</h2>
-    <p>
-      Herzlich willkommen in unserem Minecraft Server Shop!<br><br>
-      Hier kannst du einzigartige Items und maßgeschneiderte Plugins für dein ultimatives Minecraft-Erlebnis erwerben.<br><br>
-      Unser Ziel ist es, dir den besten Service und die hochwertigsten Produkte zu bieten, um deinen Abenteuern in der Welt von Minecraft das gewisse Etwas zu verleihen.<br><br>
-      Viel Spaß beim Stöbern!
-    </p>
+    <p>Wir sind dein Partner für hochwertige Minecraft Server Ränge und individuelle Plugins. Qualität und Service stehen bei uns an erster Stelle!</p>
   </section>
 
 </main>
 
-<footer>
-  &copy; 2025 Minecraft Server Shop - Alle Rechte vorbehalten
-</footer>
-
 <!-- Modal für Vorteile -->
 <div class="modal-bg" id="modal">
-  <div class="modal">
-    <button class="close" onclick="closeModal()">&times;</button>
-    <h3 id="modal-title"></h3>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="close" onclick="closeModal()" aria-label="Schließen">&times;</button>
+    <h3 id="modal-title">Vorteile</h3>
     <ul id="modal-benefits"></ul>
   </div>
 </div>
 
+<!-- Warenkorb Sidebar -->
+<aside id="cart" aria-label="Warenkorb">
+  <button class="close-cart" id="close-cart" aria-label="Warenkorb schließen">&times;</button>
+  <h2>Warenkorb</h2>
+  <ul id="cart-items"></ul>
+  <div class="total" id="cart-total">Gesamt: 0 €</div>
+  <button class="buy-btn" id="buy-btn">Jetzt kaufen</button>
+</aside>
+
 <script>
-  // Rang-Daten
+  // Ränge mit Preisen und Vorteilen
   const ranks = [
-    {
-      name: 'Bronze',
-      price: '3,99€',
-      benefits: [
-        'Prefix Bronze im Chat',
-        'Zugang zu Bronze-Serverbereich',
-        'Exklusive Bronze-Rang-Items'
-      ]
-    },
-    {
-      name: 'Silber',
-      price: '5,99€',
-      benefits: [
-        'Prefix Silber im Chat',
-        'Zugang zu Silber-Serverbereich',
-        'Exklusive Silber-Rang-Items'
-      ]
-    },
-    {
-      name: 'Gold',
-      price: '8,99€',
-      benefits: [
-        'Prefix Gold im Chat',
-        'Zugang zu Gold-Serverbereich',
-        'Exklusive Gold-Rang-Items'
-      ]
-    },
-    {
-      name: 'Diamant',
-      price: '12,99€',
-      benefits: [
-        'Prefix Diamant im Chat',
-        'Zugang zu Diamant-Serverbereich',
-        'Exklusive Diamant-Rang-Items'
-      ]
-    },
-    {
-      name: 'Platin',
-      price: '16,99€',
-      benefits: [
-        'Prefix Platin im Chat',
-        'Zugang zu Platin-Serverbereich',
-        'Exklusive Platin-Rang-Items'
-      ]
-    },
-    {
-      name: 'Premium',
-      price: '21,99€',
-      benefits: [
-        'Prefix Premium im Chat',
-        'Zugang zu Premium-Serverbereich',
-        'Exklusive Premium-Rang-Items'
-      ]
-    },
-    {
-      name: 'VIP',
-      price: '29,99€',
-      benefits: [
-        'Prefix VIP im Chat',
-        'Zugang zu VIP-Serverbereich',
-        'Exklusive VIP-Rang-Items'
-      ]
-    },
+    { name: 'Bronze', price: 3.99, benefits: ['Prefix Bronze', 'Zugang zu Bronze-Chat', 'Kleiner VIP-Bereich'] },
+    { name: 'Silber', price: 5.99, benefits: ['Prefix Silber', 'Zugang zu Silber-Chat', 'Mittlere VIP-Bereiche'] },
+    { name: 'Gold', price: 9.99, benefits: ['Prefix Gold', 'Zugang zu Gold-Chat', 'Großer VIP-Bereich', 'Eigene Farbe'] },
+    { name: 'Diamant', price: 14.99, benefits: ['Prefix Diamant', 'Zugang zu Diamant-Chat', 'Exklusive Items', 'Schneller Support'] },
+    { name: 'Platin', price: 19.99, benefits: ['Prefix Platin', 'Zugang zu Platin-Chat', 'Exklusive Gebäude', 'Extra XP'] },
+    { name: 'Premium', price: 24.99, benefits: ['Prefix Premium', 'Zugang zu Premium-Chat', 'Alle vorherigen Vorteile', 'Exklusiver Spawn'] },
+    { name: 'VIP', price: 29.99, benefits: ['Prefix VIP', 'Zugang zu VIP-Chat', 'Privater Bereich', 'VIP-Events'] },
   ];
 
+  // Warenkorb-Array
+  let cart = [];
+
+  // DOM Elemente
   const rankListEl = document.getElementById('rank-list');
   const modal = document.getElementById('modal');
   const modalTitle = document.getElementById('modal-title');
   const modalBenefits = document.getElementById('modal-benefits');
+  const cartToggle = document.getElementById('cart-toggle');
+  const cartSidebar = document.getElementById('cart');
+  const closeCartBtn = document.getElementById('close-cart');
+  const cartItemsEl = document.getElementById('cart-items');
+  const cartTotalEl = document.getElementById('cart-total');
+  const buyBtn = document.getElementById('buy-btn');
+  const buyCustomBtn = document.getElementById('buy-custom');
 
-  // Ränge im Grid einfügen
+  // Rang-Items anzeigen
   ranks.forEach((rank, index) => {
     const div = document.createElement('div');
     div.className = 'product';
     div.innerHTML = `
       <h3>${rank.name}</h3>
-      <div class="price">${rank.price}</div>
+      <div class="price">${rank.price.toFixed(2)} €</div>
       <button onclick="openModal(${index})">Vorteile ansehen</button>
+      <button onclick="addToCart(${index})" aria-label="In den Warenkorb legen: ${rank.name}">In den Warenkorb</button>
     `;
     rankListEl.appendChild(div);
   });
@@ -355,11 +446,63 @@
     });
     modal.classList.add('active');
   }
-
-  // Modal schließen
   function closeModal() {
     modal.classList.remove('active');
   }
+
+  // Warenkorb-Logik
+  function addToCart(index) {
+    const item = ranks[index];
+    cart.push(item);
+    updateCart();
+    alert(`${item.name} wurde in den Warenkorb gelegt.`);
+  }
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+  function updateCart() {
+    // Items im Warenkorb anzeigen
+    cartItemsEl.innerHTML = '';
+    cart.forEach((item, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${item.name} - ${item.price.toFixed(2)} €</span>
+        <button class="remove-item" onclick="removeFromCart(${i})" aria-label="Artikel entfernen">✕</button>
+      `;
+      cartItemsEl.appendChild(li);
+    });
+    // Gesamtpreis berechnen
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    cartTotalEl.textContent = `Gesamt: ${total.toFixed(2)} €`;
+    // Warenkorb-Button aktualisieren
+    cartToggle.textContent = `Warenkorb (${cart.length})`;
+  }
+
+  // Warenkorb öffnen/schließen
+  cartToggle.addEventListener('click', () => {
+    cartSidebar.classList.toggle('active');
+  });
+  closeCartBtn.addEventListener('click', () => {
+    cartSidebar.classList.remove('active');
+  });
+
+  // Kaufen-Button (Demo)
+  buyBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+      alert('Dein Warenkorb ist leer!');
+      return;
+    }
+    alert(`Danke für deinen Kauf von ${cart.length} Artikel(n) mit einem Gesamtpreis von ${cart.reduce((sum,item) => sum+item.price, 0).toFixed(2)} €!`);
+    cart = [];
+    updateCart();
+    cartSidebar.classList.remove('active');
+  });
+
+  // Custom Plugin Button (z.B. Link zu Discord oder Kontaktseite)
+  buyCustomBtn.addEventListener('click', () => {
+    alert('Bitte kontaktiere uns über Discord oder per E-Mail für dein individuelles Plugin!');
+  });
 </script>
 
 </body>
