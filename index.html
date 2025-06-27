@@ -1,230 +1,160 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ränge Shop</title>
-<style>
-  body { font-family: Arial, sans-serif; background: #121212; color: white; margin: 0; padding: 20px; }
-  .rang-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-  .rang-card {
-    background: #222;
-    border-radius: 10px;
-    padding: 20px;
-    width: 150px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  .rang-card:hover { transform: scale(1.05); }
-  .rang-name {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-  }
-  .bronze { color: #cd7f32; }
-  .silber { color: #c0c0c0; }
-  .gold { color: #ffd700; }
-  .diamant { color: #b9f2ff; }
-  .platin { color: #e5e4e2; }
-  .premium { color: #ff69b4; }
-  .vip { color: #00ffff; }
-
-  /* Modal Styles */
-  .modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1000;
-    left: 0; top: 0; width: 100%; height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.8);
-  }
-  .modal-content {
-    background-color: #333;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    color: white;
-    position: relative;
-  }
-  .close-btn {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-  }
-  .vorteile-list {
-    margin-top: 15px;
-    text-align: left;
-  }
-  .warenkorb-btn {
-    margin-top: 20px;
-    background-color: #2196F3;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    width: 100%;
-    font-weight: bold;
-    font-size: 1em;
-  }
-  .warenkorb-btn:hover {
-    background-color: #0b7dda;
-  }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MC Shop - Ränge</title>
+    <link rel="stylesheet" href="style.css" /> <!-- deine Styles bleiben gleich -->
+    <style>
+      /* Optional: kleine Anpassungen für Rangfarben */
+      .rank-bronze { background-color: #cd7f32; color: #fff; }
+      .rank-silber { background-color: #c0c0c0; color: #000; }
+      .rank-gold { background-color: #ffd700; color: #000; }
+      .rank-diamant { background-color: #b9f2ff; color: #000; }
+      .rank-platin { background-color: #e5e4e2; color: #000; }
+      .rank-premium { background-color: #ff8c00; color: #fff; }
+      .rank-vip { background-color: #9400d3; color: #fff; }
+      /* Vorteil-Box */
+      #benefits-popup {
+          position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+          background: white; padding: 20px; border-radius: 10px;
+          box-shadow: 0 0 15px rgba(0,0,0,0.3); display: none;
+          max-width: 400px; z-index: 1000;
+      }
+      #benefits-popup button.close-btn {
+          background: #f44336; color: white; border: none; padding: 5px 10px;
+          cursor: pointer; float: right; border-radius: 5px;
+      }
+    </style>
 </head>
 <body>
+    <!-- Header & Navigation wie gehabt -->
+    <header>
+      <h1>MC Shopkeys</h1>
+      <nav>
+        <!-- deine Navigation -->
+      </nav>
+    </header>
 
-<h1>Wähle deinen Rang</h1>
-<div class="rang-grid">
+    <!-- Produkt/Ränge Section -->
+    <main>
+      <section class="products">
+        <h2>Unsere Ränge</h2>
+        <div class="product-list">
+          <!-- Beispiel Rang als Card -->
+          <div class="product rank-bronze" onclick="showBenefits('bronze')">
+            <h3>Bronze</h3>
+            <p>Vorteile ansehen</p>
+            <button onclick="event.stopPropagation(); addToCart('Bronze')">In den Warenkorb</button>
+          </div>
+          <div class="product rank-silber" onclick="showBenefits('silber')">
+            <h3>Silber</h3>
+            <p>Vorteile ansehen</p>
+            <button onclick="event.stopPropagation(); addToCart('Silber')">In den Warenkorb</button>
+          </div>
+          <div class="product rank-gold" onclick="showBenefits('gold')">
+            <h3>Gold</h3>
+            <p>Vorteile ansehen</p>
+            <button onclick="event.stopPropagation(); addToCart('Gold')">In den Warenkorb</button>
+          </div>
+          <div class="product rank-diamant" onclick="showBenefits('diamant')">
+            <h3>Diamant</h3>
+            <p>Vorteile ansehen</p>
+            <button onclick="event.stopPropagation(); addToCart('Diamant')">In den Warenkorb</button>
+          </div>
+          <div class="product rank-platin" onclick="showBenefits('platin')">
+            <h3>Platin</h3>
+            <p>Vorteile ansehen</p>
+            <button onclick="event.stopPropagation(); addToCart('Platin')">In den Warenkorb</button>
+          </div>
+          <div class="product rank-premium" onclick="showBenefits('premium')">
+            <h3>Premium</h3>
+            <p>Vorteile ansehen</p>
+            <button onclick="event.stopPropagation(); addToCart('Premium')">In den Warenkorb</button>
+          </div>
+          <div class="product rank-vip" onclick="showBenefits('vip')">
+            <h3>VIP</h3>
+            <p>Vorteile ansehen</p>
+            <button onclick="event.stopPropagation(); addToCart('VIP')">In den Warenkorb</button>
+          </div>
+        </div>
+      </section>
+    </main>
 
-  <div class="rang-card bronze" onclick="openModal('Bronze')">
-    <div class="rang-name">Bronze</div>
-    <div>Preis: 2,99€</div>
-  </div>
+    <!-- Vorteile Popup -->
+    <div id="benefits-popup">
+      <button class="close-btn" onclick="closeBenefits()">X</button>
+      <h3 id="benefits-title"></h3>
+      <ul id="benefits-list"></ul>
+    </div>
 
-  <div class="rang-card silber" onclick="openModal('Silber')">
-    <div class="rang-name">Silber</div>
-    <div>Preis: 4,99€</div>
-  </div>
+    <script>
+      const rankBenefits = {
+        bronze: [
+          "Prefix: [Bronze]",
+          "Günstiger Einstieg",
+          "Zugang zu Bronze-Chat",
+          "kleine Token-Boni"
+        ],
+        silber: [
+          "Prefix: [Silber]",
+          "Mehr Token-Boni",
+          "Zugang zu Silber-Chat",
+          "kleine VIP-Belohnungen"
+        ],
+        gold: [
+          "Prefix: [Gold]",
+          "Erhöhter Token-Erhalt",
+          "Gold-Chat Zugang",
+          "Exklusive Events"
+        ],
+        diamant: [
+          "Prefix: [Diamant]",
+          "Sehr hoher Token-Bonus",
+          "Diamant-Chat Zugang",
+          "Spezielle Belohnungen"
+        ],
+        platin: [
+          "Prefix: [Platin]",
+          "Maximaler Token-Bonus",
+          "Platin-Chat Zugang",
+          "VIP-Ränge & mehr"
+        ],
+        premium: [
+          "Prefix: [Premium]",
+          "Extra Features",
+          "Zugang zu Premium-Events",
+          "Individuelle Anpassungen"
+        ],
+        vip: [
+          "Prefix: [VIP]",
+          "Vollzugriff auf VIP-Bereiche",
+          "Exklusive Cosmetics",
+          "Persönlicher Support"
+        ],
+      };
 
-  <div class="rang-card gold" onclick="openModal('Gold')">
-    <div class="rang-name">Gold</div>
-    <div>Preis: 6,99€</div>
-  </div>
+      function showBenefits(rank) {
+        const title = document.getElementById("benefits-title");
+        const list = document.getElementById("benefits-list");
+        title.textContent = rank.charAt(0).toUpperCase() + rank.slice(1);
+        list.innerHTML = "";
+        rankBenefits[rank].forEach(benefit => {
+          const li = document.createElement("li");
+          li.textContent = benefit;
+          list.appendChild(li);
+        });
+        document.getElementById("benefits-popup").style.display = "block";
+      }
 
-  <div class="rang-card diamant" onclick="openModal('Diamant')">
-    <div class="rang-name">Diamant</div>
-    <div>Preis: 9,99€</div>
-  </div>
+      function closeBenefits() {
+        document.getElementById("benefits-popup").style.display = "none";
+      }
 
-  <div class="rang-card platin" onclick="openModal('Platin')">
-    <div class="rang-name">Platin</div>
-    <div>Preis: 12,99€</div>
-  </div>
-
-  <div class="rang-card premium" onclick="openModal('Premium')">
-    <div class="rang-name">Premium</div>
-    <div>Preis: 15,99€</div>
-  </div>
-
-  <div class="rang-card vip" onclick="openModal('VIP')">
-    <div class="rang-name">VIP</div>
-    <div>Preis: 19,99€</div>
-  </div>
-
-</div>
-
-<!-- Modal -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h2 id="modal-title"></h2>
-    <ul class="vorteile-list" id="vorteile-list"></ul>
-    <button class="warenkorb-btn" onclick="addToCart()">In den Warenkorb</button>
-  </div>
-</div>
-
-<script>
-  const rangVorteile = {
-    "Bronze": [
-      "Prefix: §6[Bronze]",
-      "Exklusive Chatfarbe",
-      "Zugang zu Bronze-Bereich"
-    ],
-    "Silber": [
-      "Prefix: §7[Silber]",
-      "Exklusive Chatfarbe",
-      "Zugang zu Silber-Bereich",
-      "Spezielle Emotes"
-    ],
-    "Gold": [
-      "Prefix: §e[Gold]",
-      "Exklusive Chatfarbe",
-      "Zugang zu Gold-Bereich",
-      "Spezielle Emotes",
-      "VIP-Chat"
-    ],
-    "Diamant": [
-      "Prefix: §b[Diamant]",
-      "Exklusive Chatfarbe",
-      "Zugang zu Diamant-Bereich",
-      "Spezielle Emotes",
-      "VIP-Chat",
-      "Privater Discord Channel"
-    ],
-    "Platin": [
-      "Prefix: §f[Platin]",
-      "Exklusive Chatfarbe",
-      "Zugang zu Platin-Bereich",
-      "Spezielle Emotes",
-      "VIP-Chat",
-      "Privater Discord Channel",
-      "Spezielle Tags"
-    ],
-    "Premium": [
-      "Prefix: §d[Premium]",
-      "Exklusive Chatfarbe",
-      "Zugang zu Premium-Bereich",
-      "Spezielle Emotes",
-      "VIP-Chat",
-      "Privater Discord Channel",
-      "Spezielle Tags",
-      "Exklusive Events"
-    ],
-    "VIP": [
-      "Prefix: §3[VIP]",
-      "Exklusive Chatfarbe",
-      "Zugang zu VIP-Bereich",
-      "Spezielle Emotes",
-      "VIP-Chat",
-      "Privater Discord Channel",
-      "Spezielle Tags",
-      "Exklusive Events",
-      "Früher Zugang zu Updates"
-    ]
-  };
-
-  let aktuellerRang = null;
-
-  function openModal(rang) {
-    aktuellerRang = rang;
-    document.getElementById('modal-title').innerText = rang;
-    const list = document.getElementById('vorteile-list');
-    list.innerHTML = '';
-    rangVorteile[rang].forEach(vorteil => {
-      const li = document.createElement('li');
-      li.innerText = vorteil;
-      list.appendChild(li);
-    });
-    document.getElementById('modal').style.display = 'block';
-  }
-
-  function closeModal() {
-    document.getElementById('modal').style.display = 'none';
-  }
-
-  function addToCart() {
-    if (!aktuellerRang) return alert('Bitte wähle einen Rang aus!');
-    alert(aktuellerRang + ' wurde in den Warenkorb gelegt!');
-    // Hier kannst du deinen Warenkorb-Logik einbauen
-    closeModal();
-  }
-
-  // Modal schließen, wenn man außerhalb klickt
-  window.onclick = function(event) {
-    const modal = document.getElementById('modal');
-    if (event.target === modal) {
-      closeModal();
-    }
-  }
-</script>
-
+      function addToCart(rankName) {
+        alert(rankName + " wurde in den Warenkorb gelegt!");
+        // Hier kannst du die bestehende Warenkorb-Logik einbinden
+      }
+    </script>
 </body>
 </html>
