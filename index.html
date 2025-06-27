@@ -3,187 +3,258 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Minecraft Server Shop – Kaufe Ränge und individuelle Plugins für deinen Server" />
   <title>Minecraft Server Shop</title>
   <style>
-    /* Reset & Grundfarben */
+    /* ==== Deine ursprünglichen Styles ==== */
+    @import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background: #121212;
-      color: #eee;
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      overflow-x: hidden;
-    }
-    a {
-      color: #f0c419;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Anton", sans-serif;
     }
 
-    header {
-      background: #1e1e1e;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #f0c419;
-      letter-spacing: 3px;
-      user-select: none;
-      box-shadow: 0 3px 10px #f0c419aa;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    body {
+      background: #111;
+      color: #eee;
+      line-height: 1.5;
     }
 
     main {
-      max-width: 1100px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      flex-grow: 1;
+      margin: 1rem auto 6rem;
+      max-width: 900px;
     }
 
-    section {
-      margin-bottom: 4rem;
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      margin: 2rem 0 3rem;
+      color: #f0c419;
+      text-shadow: 0 0 15px #f0c41988;
     }
 
     h2 {
       font-size: 2rem;
-      border-bottom: 3px solid #f0c419;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1.5rem;
-      max-width: fit-content;
+      text-align: center;
+      margin: 3rem 0 2rem;
+      color: #f0c419cc;
+      text-shadow: 0 0 15px #f0c41955;
     }
 
-    /* Rang-Shop Grid */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.8rem;
-    }
-    .product {
+    /* === LOGIN-SECTION === */
+    #login-section {
       background: #222;
+      padding: 1.5rem;
       border-radius: 10px;
-      box-shadow: 0 0 12px #f0c419aa;
-      padding: 1.2rem;
-      text-align: center;
-      transition: box-shadow 0.3s ease;
-      cursor: pointer;
-      user-select: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product:hover {
-      box-shadow: 0 0 25px #f0c419cc;
-    }
-    .product h3 {
-      color: #f0c419;
-      margin-bottom: 0.5rem;
-      font-size: 1.4rem;
-    }
-    .product .price {
-      font-weight: 700;
-      margin: 0.5rem 0 1rem 0;
-      font-size: 1.1rem;
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      box-shadow: 0 0 15px #f0c419aa;
       color: #eee;
+      text-align: center;
     }
-    .product button {
+    #login-form input {
+      width: 80%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+    #login-form button {
       background: #f0c419;
       border: none;
-      padding: 0.6rem 1.2rem;
+      padding: 0.6rem 1.5rem;
       border-radius: 6px;
-      font-weight: 600;
+      font-weight: 700;
       color: #222;
       cursor: pointer;
       transition: background 0.2s ease;
-      margin-bottom: 0.3rem;
     }
-    .product button:hover {
+    #login-form button:hover {
+      background: #d1a510;
+    }
+    #login-status {
+      margin-top: 1rem;
+      font-weight: 700;
+    }
+
+    /* === PRODUCT-LIST === */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .product {
+      background: #222;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 0 20px #f0c41944;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .product:hover {
+      box-shadow: 0 0 30px #f0c419bb;
+    }
+
+    .product img {
+      width: 80px;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      color: #f0c419;
+      font-weight: 700;
+      margin: 1rem 0;
+      font-size: 1.2rem;
+    }
+
+    .benefits {
+      margin-bottom: 1rem;
+      list-style: none;
+      color: #ddd;
+    }
+
+    .buy-btn {
+      display: inline-block;
+      background: #f0c419;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      user-select: none;
+    }
+
+    .buy-btn:hover {
       background: #d1a510;
     }
 
-    /* Modal Styles */
-    .modal-bg {
+    /* === CART SIDEBAR === */
+    .cart-sidebar {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-    }
-    .modal-bg.active {
-      display: flex;
-    }
-    .modal {
+      right: 0;
+      top: 0;
+      width: 350px;
+      height: 100%;
       background: #222;
-      padding: 2rem;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 30px #f0c419cc;
-      position: relative;
       color: #eee;
-    }
-    .modal h3 {
-      margin-bottom: 1rem;
-      color: #f0c419;
-    }
-    .modal ul {
-      list-style: disc inside;
-      margin-bottom: 1.5rem;
-    }
-    .modal button.close {
-      position: absolute;
-      top: 10px; right: 15px;
-      background: transparent;
-      border: none;
-      font-size: 1.5rem;
-      color: #f0c419;
-      cursor: pointer;
-    }
-
-    /* Über Uns */
-    #about p {
-      max-width: 650px;
-      margin: auto;
-      font-size: 1.1rem;
-      color: #ccc;
-      line-height: 1.8;
-    }
-
-    /* Custom Plugin Section */
-    .custom-plugin {
-      background: #1e1e1e;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #f0c419aa;
-      text-align: center;
+      box-shadow: -4px 0 20px #f0c41999;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      max-width: 400px;
-      margin: 0 auto;
+      padding: 1rem;
+      z-index: 100;
     }
-    .custom-plugin h3 {
+
+    .cart-sidebar.active {
+      transform: translateX(0);
+    }
+
+    .cart-header {
+      font-weight: 700;
+      font-size: 1.5rem;
       margin-bottom: 1rem;
       color: #f0c419;
+      text-shadow: 0 0 15px #f0c41988;
     }
-    .custom-plugin p {
-      margin-bottom: 1.5rem;
-      color: #ddd;
+
+    .cart-list {
+      list-style: none;
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .cart-list li {
+      background: #333;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 10px #f0c41933;
+    }
+
+    .cart-list li button {
+      background: #f00;
+      border: none;
+      color: #fff;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .cart-total {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-align: right;
+      color: #f0c419;
+      text-shadow: 0 0 10px #f0c419bb;
+    }
+
+    .checkout-btn {
+      background: #f0c419;
+      border: none;
+      padding: 1rem;
+      border-radius: 15px;
+      font-weight: 700;
+      color: #222;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.2rem;
+      user-select: none;
+      transition: background 0.2s ease;
+    }
+
+    .checkout-btn:hover {
+      background: #d1a510;
+    }
+
+    /* === CUSTOM PLUGIN FORM === */
+    #custom-plugin {
+      max-width: 600px;
+      margin: 2rem auto 6rem;
+      background: #222;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 0 20px #f0c41944;
+      color: #eee;
+    }
+
+    #custom-plugin h2 {
+      text-align: center;
+      color: #f0c419cc;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px #f0c41955;
+    }
+
+    #custom-plugin-form input,
+    #custom-plugin-form textarea {
+      width: 90%;
+      margin: 0.5rem 0;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: none;
       font-size: 1rem;
+      resize: vertical;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .custom-plugin button {
+
+    #custom-plugin-form button {
       background: #f0c419;
       border: none;
       padding: 0.7rem 1.8rem;
@@ -192,318 +263,306 @@
       color: #222;
       cursor: pointer;
       transition: background 0.2s ease;
-      font-size: 1.1rem;
-      width: 100%;
-      max-width: 180px;
+      margin-top: 0.5rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .custom-plugin button:hover {
+
+    #custom-plugin-form button:hover {
       background: #d1a510;
     }
 
-    /* Footer */
-    footer {
-      background: #1e1e1e;
-      color: #666;
+    #form-response {
+      margin-top: 1rem;
+      font-weight: 700;
       text-align: center;
-      padding: 1.5rem 1rem;
-      font-size: 0.9rem;
-      user-select: none;
     }
 
-    /* Warenkorb Sidebar */
-    #cart {
-      position: fixed;
-      top: 0;
-      right: -350px;
-      width: 320px;
-      height: 100vh;
-      background: #222;
-      box-shadow: -3px 0 15px #f0c419bb;
-      padding: 1.5rem;
-      transition: right 0.3s ease;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-    }
-    #cart.active {
-      right: 0;
-    }
-    #cart h2 {
-      color: #f0c419;
-      margin-bottom: 1rem;
-      border-bottom: 2px solid #f0c419;
-      padding-bottom: 0.5rem;
-    }
-    #cart .close-cart {
-      background: transparent;
-      border: none;
-      font-size: 1.8rem;
-      color: #f0c419;
-      cursor: pointer;
-      align-self: flex-end;
-      margin-bottom: 1rem;
-    }
-    #cart ul {
-      flex-grow: 1;
-      overflow-y: auto;
-      list-style: none;
-      margin-bottom: 1rem;
-    }
-    #cart ul li {
-      background: #333;
-      margin-bottom: 0.8rem;
-      padding: 0.7rem 1rem;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #eee;
-    }
-    #cart ul li button.remove-item {
-      background: #d14444;
-      border: none;
-      color: white;
-      border-radius: 5px;
-      padding: 0.3rem 0.7rem;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background 0.2s ease;
-    }
-    #cart ul li button.remove-item:hover {
-      background: #a82b2b;
-    }
-    #cart .total {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: #f0c419;
-      text-align: right;
-    }
-    #cart button.buy-btn {
-      background: #f0c419;
-      border: none;
-      padding: 0.8rem 1.2rem;
-      font-weight: 700;
-      color: #222;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      width: 100%;
-      font-size: 1.1rem;
-    }
-    #cart button.buy-btn:hover {
-      background: #d1a510;
-    }
-
-    /* Warenkorb Button am Header */
-    #cart-toggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: #f0c419;
-      color: #222;
-      border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 6px;
-      font-weight: 700;
-      cursor: pointer;
-      z-index: 300;
-      box-shadow: 0 0 10px #f0c419aa;
-      transition: background 0.2s ease;
-      user-select: none;
-    }
-    #cart-toggle:hover {
-      background: #d1a510;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      header {
-        font-size: 1.5rem;
-      }
-      .product h3 {
-        font-size: 1.2rem;
-      }
-      #cart {
-        width: 100vw;
-        right: -100vw;
-      }
-      #cart.active {
-        right: 0;
-      }
-      #cart button.buy-btn {
-        font-size: 1.3rem;
-      }
-      #cart-toggle {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.9rem;
-      }
-    }
   </style>
+  <!-- PayPal SDK: Ersetze YOUR_CLIENT_ID mit deinem echten Client-ID -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=EUR"></script>
 </head>
 <body>
+  <main>
+    <h1>Minecraft Server Shop</h1>
 
-<header>Minecraft Server Shop</header>
+    <!-- Login -->
+    <section id="login-section">
+      <h2>Login</h2>
+      <form id="login-form">
+        <input type="text" id="username" placeholder="Benutzername" required />
+        <input type="password" id="password" placeholder="Passwort" required />
+        <button type="submit">Anmelden</button>
+      </form>
+      <div id="login-status"></div>
+    </section>
 
-<button id="cart-toggle" aria-label="Warenkorb öffnen">Warenkorb (0)</button>
+    <!-- Produktliste -->
+    <section class="products" id="product-list">
+      <!-- Produkte via JS eingefügt -->
+    </section>
 
-<main>
+    <!-- Custom Plugin -->
+    <section id="custom-plugin">
+      <h2>Custom Plugin kaufen</h2>
+      <div class="custom-plugin">
+        <h3>Maßgeschneiderte Plugins für deinen Server</h3>
+        <p>Du möchtest ein individuelles Plugin mit speziellen Features? Kein Problem! Wir erstellen dir dein Wunsch-Plugin im gleichen Stil.</p>
+        <form id="custom-plugin-form">
+          <input type="text" id="contact-name" placeholder="Dein Name" required />
+          <input type="email" id="contact-email" placeholder="Deine E-Mail" required />
+          <textarea id="contact-message" rows="4" placeholder="Deine Wünsche" required></textarea>
+          <button type="submit">Anfrage senden</button>
+        </form>
+        <div id="form-response"></div>
+      </div>
+    </section>
+  </main>
 
-  <!-- Rang Shop -->
-  <section id="ranks">
-    <h2>Ränge kaufen</h2>
-    <div class="products-grid" id="rank-list">
-      <!-- Ränge per JS eingefügt -->
-    </div>
-  </section>
+  <!-- Warenkorb Sidebar -->
+  <aside class="cart-sidebar" id="cart-sidebar" aria-label="Warenkorb">
+    <div class="cart-header">Warenkorb</div>
+    <ul class="cart-list" id="cart-list" role="list" aria-live="polite" aria-relevant="additions removals"></ul>
+    <div class="cart-total" id="cart-total">Gesamt: 0,00 €</div>
+    <button class="checkout-btn" id="buy-btn">Kaufen</button>
+    <div id="paypal-button-container" style="margin-top:1rem;"></div>
+  </aside>
 
-  <!-- Custom Plugin -->
-  <section id="custom-plugin">
-    <h2>Custom Plugin kaufen</h2>
-    <div class="custom-plugin">
-      <h3>Maßgeschneiderte Plugins für deinen Server</h3>
-      <p>Du möchtest ein individuelles Plugin mit speziellen Features? Kein Problem! Wir erstellen dir dein Wunsch-Plugin im gleichen Stil.</p>
-      <button id="buy-custom">Jetzt anfragen</button>
-    </div>
-  </section>
+  <script>
+    // Rangliste mit Bildern und Vorteilen
+    const ranks = [
+      {
+        name: "Bronze",
+        price: 3.99,
+        benefits: [
+          "✔️ Vorrang in der Warteschlange",
+          "✔️ Zugang zu exklusiven Bereichen",
+          "✔️ Einzigartige Chatfarbe",
+        ],
+        image: "https://i.imgur.com/3pW1lPz.png",
+      },
+      {
+        name: "Silber",
+        price: 7.99,
+        benefits: [
+          "✔️ Vorrang in der Warteschlange",
+          "✔️ Zugang zu exklusiven Bereichen",
+          "✔️ Einzigartige Chatfarbe",
+          "✔️ Kleiner Ingame-Geldbonus",
+        ],
+        image: "https://i.imgur.com/3R0tXls.png",
+      },
+      {
+        name: "Gold",
+        price: 14.99,
+        benefits: [
+          "✔️ Vorrang in der Warteschlange",
+          "✔️ Zugang zu exklusiven Bereichen",
+          "✔️ Einzigartige Chatfarbe",
+          "✔️ Kleiner Ingame-Geldbonus",
+          "✔️ Eigenes Haustier",
+        ],
+        image: "https://i.imgur.com/sqIoMWN.png",
+      },
+      {
+        name: "Platin",
+        price: 29.99,
+        benefits: [
+          "✔️ Vorrang in der Warteschlange",
+          "✔️ Zugang zu exklusiven Bereichen",
+          "✔️ Einzigartige Chatfarbe",
+          "✔️ Großer Ingame-Geldbonus",
+          "✔️ Eigenes Haustier",
+          "✔️ Exklusive Events",
+        ],
+        image: "https://i.imgur.com/Mx34WuU.png",
+      },
+    ];
 
-  <!-- Über Uns -->
-  <section id="about">
-    <h2>Über Uns</h2>
-    <p>Wir sind dein Partner für hochwertige Minecraft Server Ränge und individuelle Plugins. Qualität und Service stehen bei uns an erster Stelle!</p>
-  </section>
+    // Variablen
+    let cart = [];
+    const productList = document.getElementById("product-list");
+    const cartSidebar = document.getElementById("cart-sidebar");
+    const cartList = document.getElementById("cart-list");
+    const cartTotal = document.getElementById("cart-total");
+    const buyBtn = document.getElementById("buy-btn");
 
-</main>
+    // Login Elemente
+    const loginForm = document.getElementById("login-form");
+    const loginStatus = document.getElementById("login-status");
+    let currentUser = null;
 
-<!-- Modal für Vorteile -->
-<div class="modal-bg" id="modal">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <button class="close" onclick="closeModal()" aria-label="Schließen">&times;</button>
-    <h3 id="modal-title">Vorteile</h3>
-    <ul id="modal-benefits"></ul>
-  </div>
-</div>
+    // Benutzer (nur Demo)
+    const users = {
+      spieler1: "pass123",
+      admin: "adminpass",
+    };
 
-<!-- Warenkorb Sidebar -->
-<aside id="cart" aria-label="Warenkorb">
-  <button class="close-cart" id="close-cart" aria-label="Warenkorb schließen">&times;</button>
-  <h2>Warenkorb</h2>
-  <ul id="cart-items"></ul>
-  <div class="total" id="cart-total">Gesamt: 0 €</div>
-  <button class="buy-btn" id="buy-btn">Jetzt kaufen</button>
-</aside>
-
-<script>
-  // Ränge mit Preisen und Vorteilen
-  const ranks = [
-    { name: 'Bronze', price: 3.99, benefits: ['Prefix Bronze', 'Zugang zu Bronze-Chat', 'Kleiner VIP-Bereich'] },
-    { name: 'Silber', price: 5.99, benefits: ['Prefix Silber', 'Zugang zu Silber-Chat', 'Mittlere VIP-Bereiche'] },
-    { name: 'Gold', price: 9.99, benefits: ['Prefix Gold', 'Zugang zu Gold-Chat', 'Großer VIP-Bereich', 'Eigene Farbe'] },
-    { name: 'Diamant', price: 14.99, benefits: ['Prefix Diamant', 'Zugang zu Diamant-Chat', 'Exklusive Items', 'Schneller Support'] },
-    { name: 'Platin', price: 19.99, benefits: ['Prefix Platin', 'Zugang zu Platin-Chat', 'Exklusive Gebäude', 'Extra XP'] },
-    { name: 'Premium', price: 24.99, benefits: ['Prefix Premium', 'Zugang zu Premium-Chat', 'Alle vorherigen Vorteile', 'Exklusiver Spawn'] },
-    { name: 'VIP', price: 29.99, benefits: ['Prefix VIP', 'Zugang zu VIP-Chat', 'Privater Bereich', 'VIP-Events'] },
-  ];
-
-  // Warenkorb-Array
-  let cart = [];
-
-  // DOM Elemente
-  const rankListEl = document.getElementById('rank-list');
-  const modal = document.getElementById('modal');
-  const modalTitle = document.getElementById('modal-title');
-  const modalBenefits = document.getElementById('modal-benefits');
-  const cartToggle = document.getElementById('cart-toggle');
-  const cartSidebar = document.getElementById('cart');
-  const closeCartBtn = document.getElementById('close-cart');
-  const cartItemsEl = document.getElementById('cart-items');
-  const cartTotalEl = document.getElementById('cart-total');
-  const buyBtn = document.getElementById('buy-btn');
-  const buyCustomBtn = document.getElementById('buy-custom');
-
-  // Rang-Items anzeigen
-  ranks.forEach((rank, index) => {
-    const div = document.createElement('div');
-    div.className = 'product';
-    div.innerHTML = `
-      <h3>${rank.name}</h3>
-      <div class="price">${rank.price.toFixed(2)} €</div>
-      <button onclick="openModal(${index})">Vorteile ansehen</button>
-      <button onclick="addToCart(${index})" aria-label="In den Warenkorb legen: ${rank.name}">In den Warenkorb</button>
-    `;
-    rankListEl.appendChild(div);
-  });
-
-  // Modal öffnen
-  function openModal(index) {
-    const rank = ranks[index];
-    modalTitle.textContent = rank.name + ' Rang Vorteile';
-    modalBenefits.innerHTML = '';
-    rank.benefits.forEach(benefit => {
-      const li = document.createElement('li');
-      li.textContent = benefit;
-      modalBenefits.appendChild(li);
-    });
-    modal.classList.add('active');
-  }
-  function closeModal() {
-    modal.classList.remove('active');
-  }
-
-  // Warenkorb-Logik
-  function addToCart(index) {
-    const item = ranks[index];
-    cart.push(item);
-    updateCart();
-    alert(`${item.name} wurde in den Warenkorb gelegt.`);
-  }
-  function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCart();
-  }
-  function updateCart() {
-    // Items im Warenkorb anzeigen
-    cartItemsEl.innerHTML = '';
-    cart.forEach((item, i) => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span>${item.name} - ${item.price.toFixed(2)} €</span>
-        <button class="remove-item" onclick="removeFromCart(${i})" aria-label="Artikel entfernen">✕</button>
-      `;
-      cartItemsEl.appendChild(li);
-    });
-    // Gesamtpreis berechnen
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    cartTotalEl.textContent = `Gesamt: ${total.toFixed(2)} €`;
-    // Warenkorb-Button aktualisieren
-    cartToggle.textContent = `Warenkorb (${cart.length})`;
-  }
-
-  // Warenkorb öffnen/schließen
-  cartToggle.addEventListener('click', () => {
-    cartSidebar.classList.toggle('active');
-  });
-  closeCartBtn.addEventListener('click', () => {
-    cartSidebar.classList.remove('active');
-  });
-
-  // Kaufen-Button (Demo)
-  buyBtn.addEventListener('click', () => {
-    if (cart.length === 0) {
-      alert('Dein Warenkorb ist leer!');
-      return;
+    // Produkte anzeigen
+    function displayProducts() {
+      productList.innerHTML = "";
+      ranks.forEach((rank, index) => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <img src="${rank.image}" alt="${rank.name} Rang Icon" />
+          <h3>${rank.name}</h3>
+          <div class="price">${rank.price.toFixed(2)} €</div>
+          <ul class="benefits">${rank.benefits.map(b => `<li>${b}</li>`).join("")}</ul>
+          <button class="buy-btn" aria-label="Kaufe ${rank.name} Rang" data-index="${index}">Kaufen</button>
+        `;
+        productList.appendChild(div);
+      });
+      // Buttons mit Eventlistenern versehen
+      document.querySelectorAll(".buy-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          addToCart(parseInt(btn.getAttribute("data-index")));
+        });
+      });
     }
-    alert(`Danke für deinen Kauf von ${cart.length} Artikel(n) mit einem Gesamtpreis von ${cart.reduce((sum,item) => sum+item.price, 0).toFixed(2)} €!`);
-    cart = [];
-    updateCart();
-    cartSidebar.classList.remove('active');
-  });
 
-  // Custom Plugin Button (z.B. Link zu Discord oder Kontaktseite)
-  buyCustomBtn.addEventListener('click', () => {
-    alert('Bitte kontaktiere uns über Discord oder per E-Mail für dein individuelles Plugin!');
-  });
-</script>
+    // In den Warenkorb legen
+    function addToCart(index) {
+      if (!currentUser) {
+        alert("Bitte melde dich zuerst an, um Artikel in den Warenkorb zu legen.");
+        return;
+      }
+      const item = ranks[index];
+      cart.push(item);
+      updateCart();
+      saveCartToStorage();
+      alert(`${item.name} wurde in den Warenkorb gelegt.`);
+      cartSidebar.classList.add("active");
+    }
 
+    // Warenkorb anzeigen & aktualisieren
+    function updateCart() {
+      cartList.innerHTML = "";
+      cart.forEach((item, i) => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - ${item.price.toFixed(2)} €`;
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "×";
+        removeBtn.setAttribute("aria-label", `Entferne ${item.name} aus dem Warenkorb`);
+        removeBtn.addEventListener("click", () => {
+          removeFromCart(i);
+        });
+        li.appendChild(removeBtn);
+        cartList.appendChild(li);
+      });
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotal.textContent = `Gesamt: ${total.toFixed(2)} €`;
+    }
+
+    // Artikel entfernen
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+      saveCartToStorage();
+    }
+
+    // Warenkorb speichern (localStorage, pro User)
+    function saveCartToStorage() {
+      if (currentUser) {
+        localStorage.setItem(`cart_${currentUser}`, JSON.stringify(cart));
+      }
+    }
+
+    // Warenkorb laden (localStorage)
+    function loadCartFromStorage() {
+      if (currentUser) {
+        const savedCart = localStorage.getItem(`cart_${currentUser}`);
+        if (savedCart) {
+          cart = JSON.parse(savedCart);
+          updateCart();
+        }
+      }
+    }
+
+    // Login Formular
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (users[username] && users[username] === password) {
+        currentUser = username;
+        loginStatus.textContent = `Angemeldet als: ${username}`;
+        loginStatus.style.color = "#f0c419";
+        loginForm.style.display = "none";
+        loadCartFromStorage();
+      } else {
+        loginStatus.textContent = "Benutzername oder Passwort falsch.";
+        loginStatus.style.color = "red";
+      }
+    });
+
+    // Kontaktformular Custom Plugin
+    const customPluginForm = document.getElementById("custom-plugin-form");
+    const formResponse = document.getElementById("form-response");
+
+    customPluginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("contact-name").value.trim();
+      const email = document.getElementById("contact-email").value.trim();
+      const message = document.getElementById("contact-message").value.trim();
+
+      if (!name || !email || !message) {
+        formResponse.textContent = "Bitte alle Felder ausfüllen.";
+        formResponse.style.color = "red";
+        return;
+      }
+
+      // Sende Anfrage - hier nur Demo
+      formResponse.textContent = "Deine Anfrage wurde erfolgreich gesendet! Wir melden uns bald bei dir.";
+      formResponse.style.color = "#f0c419";
+      customPluginForm.reset();
+    });
+
+    // PayPal Buttons Setup
+    paypal.Buttons({
+      style: {
+        color: "gold",
+        shape: "rect",
+        label: "paypal",
+        height: 40,
+      },
+      createOrder: function (data, actions) {
+        if (cart.length === 0) {
+          alert("Dein Warenkorb ist leer.");
+          return;
+        }
+        const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: {
+                value: total,
+              },
+              description: `Kauf im Minecraft Server Shop (${cart.length} Artikel)`,
+            },
+          ],
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          alert("Danke für deinen Kauf, " + details.payer.name.given_name + "!");
+          cart = [];
+          updateCart();
+          cartSidebar.classList.remove("active");
+          saveCartToStorage();
+        });
+      },
+      onError: function (err) {
+        alert("Ein Fehler ist aufgetreten: " + err);
+      },
+    }).render("#paypal-button-container");
+
+    // Starte Anzeige
+    displayProducts();
+
+  </script>
 </body>
 </html>
