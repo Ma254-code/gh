@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Server Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Allgemeine Resets und Body-Stile */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            min-height: 100vh; /* Mindesthöhe für den Body */
+            background-color: #1a1a2e; /* Dunklerer Hintergrund */
+            color: #e0e0e0;
+            overflow-x: hidden; /* Verhindert horizontales Scrollen durch Warenkorb */
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #16213e; /* Dunkelblau */
+            color: #fff;
+            padding: 30px 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #0f3460; /* Helleres Blau für Überschrift */
+            text-align: center;
+            font-weight: 700;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            background-color: #0f3460; /* Passendes Blau */
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar button:hover {
+            background-color: #1a4a8f; /* Dunkleres Blau beim Hover */
+            transform: translateY(-2px);
+        }
+
+        /* Hauptinhalt */
+        .main {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background-color: #1a1a2e;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px; /* Abstand zwischen Produkten */
+            justify-content: center; /* Produkte zentrieren */
+        }
+        .product {
+            width: 220px; /* Etwas breiter für besseres Design */
+            background: #2a2a4a; /* Dunkleres Produktkarten-Blau */
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            padding: 20px;
+            color: #e0e0e0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden; /* Wichtig für abgerundete Ecken des Bildes */
+        }
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+        .product img {
+            width: 100%;
+            height: 150px; /* Etwas höher */
+            object-fit: contain;
+            border-radius: 8px; /* Abgerundetere Ecken */
+            margin-bottom: 15px;
+            border: 2px solid #0f3460; /* Rahmen um Bilder */
+            background-color: rgba(0,0,0,0.2); /* Leichter Hintergrund für Transparenz */
+        }
+        .product-name {
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .product-price {
+            color: #4CAF50; /* Lebendiges Grün */
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .product button {
+            width: calc(100% - 20px); /* Etwas Einzug */
+            padding: 10px 15px;
+            background: #e94560; /* Roter Button zum Kaufen */
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: auto; /* Sorgt dafür, dass der Button unten ist */
+        }
+        .product button:hover {
+            background-color: #d82b4a;
+            transform: translateY(-1px);
+        }
+        .product p { /* Beschreibung für Items */
+            font-size: 13px;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+            flex-grow: 1; /* Sorgt dafür, dass die Beschreibung Platz einnimmt */
+        }
+
+        /* Styles für die Custom Plugin Übersicht */
+        .plugin-overview {
+            background: #2a2a4a;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 900px; /* Breiter für mehr Inhalt */
+            text-align: center;
+            border: 2px solid #0f3460;
+        }
+        .plugin-overview h2 {
+            font-size: 36px; /* Größere Überschrift */
+            color: #6a0572; /* Lila-Ton */
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .plugin-overview img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 3px solid #0f3460;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            object-fit: contain;
+            background-color: rgba(0,0,0,0.2); /* Leichter Hintergrund für Transparenz */
+        }
+        .plugin-overview p {
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            color: #c0c0c0;
+        }
+        .plugin-overview h3 {
+            font-size: 26px;
+            color: #6a0572;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .plugin-overview .features-list {
+            text-align: left;
+            margin-top: 20px;
+            display: inline-block; /* Zum Zentrieren der Liste */
+            list-style: none;
+            padding-left: 0;
+            max-width: 600px;
+        }
+        .plugin-overview .features-list li {
+            background: #3a3a5a; /* Dunklerer Hintergrund für Listenelemente */
+            margin-bottom: 12px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 16px;
+            color: #f0f0f0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .plugin-overview .features-list li::before {
+            content: '✅'; /* Checkmark-Emoji */
+            font-size: 1.5em;
+        }
+        .plugin-overview .plugin-price {
+            font-size: 32px; /* Größerer Preis */
+            color: #4CAF50;
+            font-weight: bold;
+            margin-top: 35px;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .plugin-overview button {
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #e94560;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 700;
+        }
+        .plugin-overview button:hover {
+            background-color: #d82b4a;
+            transform: translateY(-2px);
+        }
+
+        /* Warenkorb-Umschalter (Floating Button) */
+        .cart-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0f3460; /* Blau wie Sidebar */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 100; /* Immer oben */
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cart-toggle:hover {
+            background-color: #1a4a8f;
+            transform: translateY(-3px);
+        }
+        .cart-toggle.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Macht den Button nicht mehr klickbar, wenn er ausgeblendet ist */
+        }
+
+        .cart-item-count {
+            background-color: #e94560; /* Rote Zahl */
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1;
+            min-width: 25px; /* Für einstellbare Größe */
+            text-align: center;
+        }
+
+        /* Warenkorb-Menü */
+        .cart {
+            position: fixed;
+            top: 0;
+            right: -350px; /* Start außerhalb des Bildschirms */
+            width: 350px;
+            height: 100%;
+            background: #16213e; /* Dunkelblau wie Sidebar */
+            color: #fff;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.6);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.4s ease-out; /* Sanfte Slide-Animation */
+        }
+        .cart.open {
+            right: 0; /* Ins Bild schieben */
+        }
+        .cart h3 {
+            font-size: 26px;
+            margin-bottom: 25px;
+            color: #fff;
+            text-align: center;
+            border-bottom: 2px solid #0f3460;
+            padding-bottom: 15px;
+        }
+        .cart ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1; /* Nimmt verfügbaren Platz ein */
+            overflow-y: auto; /* Scrollbar, wenn zu viele Items */
+            margin-bottom: 20px;
+        }
+        .cart ul li {
+            background: #2a2a4a; /* Hintergrund für Warenkorb-Items */
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .cart ul li .remove-item {
+            background: none;
+            border: none;
+            color: #e94560; /* Rotes X */
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: transform 0.2s ease;
+        }
+        .cart ul li .remove-item:hover {
+            transform: scale(1.2);
+        }
+        .cart-summary {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #0f3460;
+            color: #4CAF50;
+        }
+        .cart button.checkout-button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 15px;
+            background: #4CAF50; /* Grüner Checkout Button */
+            border: none;
+            color: white;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .cart button.checkout-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        /* --- Über Uns Sektion --- */
+        .about-us-section {
+            background: #2a2a4a;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+            border: 2px solid #0f3460;
+            color: #e0e0e0;
+        }
+        .about-us-section h2 {
+            font-size: 36px;
+            color: #0f3460;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .about-us-section p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #c0c0c0;
+        }
+
+        /* --- NEU: Zahlungsmodal --- */
+        .payment-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200; /* Über allem anderen */
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s;
+        }
+        .payment-modal-overlay.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .payment-modal-content {
+            background: #16213e;
+            padding: 30px 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: translateY(-20px); /* Leichter Start-Effekt */
+            transition: transform 0.3s ease-out;
+        }
+        .payment-modal-overlay.visible .payment-modal-content {
+            transform: translateY(0);
+        }
+
+        .payment-modal-content h4 {
+            font-size: 28px;
+            color: #4CAF50; /* Grüner Titel */
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .payment-modal-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        .payment-modal-content strong {
+            color: #fff;
+            font-weight: bold;
+        }
+        .payment-modal-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            background: #2a2a4a;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .payment-modal-content ul li {
+            margin-bottom: 10px;
+            font-size: 17px;
+            color: #f0f0f0;
+        }
+        .payment-modal-content .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: #e94560;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .payment-modal-content .close-button:hover {
+            transform: rotate(90deg);
+        }
+        .payment-modal-content .important-note {
+            font-size: 14px;
+            color: #ffeb3b; /* Gelb für wichtige Hinweise */
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>MineShop</h2>
+        <button onclick="filterCategory('items')">Alle Items</button>
+        <button onclick="filterCategory('plugins')">Custom Plugins</button>
+        <button onclick="showAboutUs()">Über Uns</button>
+    </div>
+    <div class="main" id="shopContainer"></div>
+
+    <div class="cart" id="cart">
+        <h3>Dein Warenkorb</h3>
+        <ul id="cartList"></ul>
+        <div class="cart-summary" id="cartTotal">Gesamt: €0.00</div>
+        <button class="checkout-button" onclick="showPaymentInstructions()">Jetzt Bezahlen</button>
+    </div>
+
+    <div class="cart-toggle" id="cart-toggle" onclick="toggleCart()">
+        🛒 Warenkorb (<span id="cartItemCount">0</span>)
+    </div>
+
+    <div class="payment-modal-overlay" id="paymentModal">
+        <div class="payment-modal-content">
+            <button class="close-button" onclick="closePaymentInstructions()">×</button>
+            <h4>Zahlungsanweisungen</h4>
+            <p>Um deinen Kauf abzuschließen, sende den **Gesamtbetrag** deines Warenkorbs an uns. Bitte gib dabei deinen **Minecraft In-Game Namen** als Verwendungszweck an, damit wir deine Zahlung zuordnen können.</p>
+
+            <ul>
+                <li><strong>Banküberweisung (IBAN):</strong></li>
+                <li>Inhaber: **[Dein Name / Firmenname]**</li>
+                <li>IBAN: **[Deine IBAN hier]**</li>
+                <li>BIC/SWIFT: **[Dein BIC/SWIFT hier]**</li>
+                <li>Bank: **[Name deiner Bank]**</li>
+            </ul>
+
+            <p>Oder per **[Dein bevorzugter Zahlungsdienst, z.B. PayPal (Freunde & Familie), Revolut, o.ä.]**:</p>
+            <ul>
+                <li>**[Deine E-Mail / Benutzername für den Dienst]**</li>
+            </ul>
+
+            <p class="important-note">
+                Bitte beachte: Nach Zahlungseingang werden wir deine Items oder Plugins manuell auf dem Server bereitstellen. Dies kann je nach Uhrzeit und Wochentag **bis zu 24 Stunden** dauern. Bei Fragen kontaktiere uns gerne!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const cart = [];
+        let currentFilter = null;
+        let fetchedProducts = []; // Hier werden die Produkte von der API gespeichert
+
+        // Definition des Custom Plugins (da es nicht von der API kommt)
+        const customPlugin = {
+            id: 100,
+            name: "Custom Plugin",
+            type: "plugins",
+            price: 29.99,
+            image: "https://via.placeholder.com/500x300/6A0572/FFFFFF?text=Dein+Custom+Plugin",
+            description: "Ein maßgeschneidertes Plugin, genau nach deinen Wünschen.",
+            fullDescription: "Erfülle dir deine Vision eines einzigartigen Minecraft-Erlebnisses mit unserem Custom Plugin! Ob ein komplexes Wirtschaftssystem, ein spezielles Event-Framework oder gänzlich neue Spielmechaniken – wir entwickeln ein maßgeschneidertes Plugin, das perfekt auf die Bedürfnisse deines Servers zugeschnitten ist. Von der Konzeption bis zur Implementierung, alles aus einer Hand.",
+            features: [
+                "Individuelle Entwicklung nach deinen Spezifikationen",
+                "Kompatibilität mit gängigen Server-Softwares (Spigot, Paper, Fabric etc.)",
+                "Leistungsoptimierter Code für minimale Server-Last",
+                "Umfassende Konfigurationsmöglichkeiten",
+                "Voller Support und Updates nach dem Kauf",
+                "Möglichkeit zur Erweiterung und Anpassung in der Zukunft"
+            ]
+        };
+
+        // Funktion zum Laden der Produkte von der API
+        async function fetchProducts() {
+            try {
+                // WICHTIG: Stelle sicher, dass dies die korrekte HTTPS-URL deines Backends ist
+                const response = await fetch('https://keys.mcshopkeys.de/api/products');
+                if (!response.ok) {
+                    throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+                }
+                fetchedProducts = await response.json(); // Produkte speichern
+                console.log("Produkte erfolgreich von der API geladen:", fetchedProducts);
+                renderProducts(); // Produkte anzeigen, nachdem sie geladen wurden
+            } catch (error) {
+                console.error("Fehler beim Laden der Produkte von der API:", error);
+                document.getElementById("shopContainer").innerHTML = '<p style="text-align: center; color: red; font-size: 20px; margin-top: 50px;">Es gab einen Fehler beim Laden der Produkte.<br>Bitte stelle sicher, dass dein Backend läuft und unter <br><code>https://keys.mcshopkeys.de/api/products</code> erreichbar ist.</p>';
+            }
+        }
+
+        // Funktion zum Rendern der Produkte basierend auf dem Filter
+        function renderProducts(filter = null) {
+            const container = document.getElementById("shopContainer");
+            container.innerHTML = ""; // Vorhandenen Inhalt löschen
+            currentFilter = filter; // Filter speichern
+
+            if (filter === 'plugins') {
+                // Zeige das hartcodierte Custom Plugin an
+                container.innerHTML = `
+                    <div class="plugin-overview">
+                        <h2>${customPlugin.name}</h2>
+                        <p>${customPlugin.description}</p>
+                        <img src="${customPlugin.image}" alt="${customPlugin.name}">
+                        <p>${customPlugin.fullDescription}</p>
+                        <h3>Wichtige Features:</h3>
+                        <ul class="features-list">
+                            ${customPlugin.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <div class="plugin-price">€${customPlugin.price.toFixed(2)}</div>
+                        <button onclick="addToCart('${customPlugin.name}', ${customPlugin.price}, ${customPlugin.id})">Plugin Anfragen</button>
+                    </div>
+                `;
+            } else if (filter === 'aboutUs') {
+                container.innerHTML = `
+                    <div class="about-us-section">
+                        <h2>Über Uns</h2>
+                        <p>Herzlich willkommen in unserem Minecraft Server Shop!</p>
+                        <p>Hier kannst du einzigartige Items und maßgeschneiderte Plugins für dein ultimatives Minecraft-Erlebnis erwerben.</p>
+                        <p>Unser Ziel ist es, dir den besten Service und die hochwertigsten Produkte zu bieten, um deinen Abenteuern in der Welt von Minecraft das gewisse Etwas zu verleihen.</p>
+                        <p>Viel Spaß beim Stöbern!</p>
+                    </div>
+                `;
+            } else {
+                // Zeige die von der API geladenen Produkte
+                fetchedProducts.filter(p => p.type === 'items').forEach(product => { // Standardmäßig nur 'items' anzeigen
+                    const div = document.createElement("div");
+                    div.className = "product";
+                    div.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">€${product.price.toFixed(2)}</div>
+                        ${product.description ? `<p>${product.description}</p>` : ""}
+                        <button onclick="addToCart('${product.name}', ${product.price}, ${product.id})">Zum Warenkorb</button>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+        }
+
+        // Funktion zum Filtern nach Kategorien (Sidebar-Buttons)
+        function filterCategory(category) {
+            renderProducts(category);
+        }
+
+        // Funktion zum Anzeigen der "Über Uns" Sektion
+        function showAboutUs() {
+            renderProducts('aboutUs');
+        }
+
+        function addToCart(name, price, id) {
+            const existingItemIndex = cart.findIndex(item => item.id === id);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity++;
+            } else {
+                cart.push({ id, name, price, quantity: 1 });
+            }
+            updateCart();
+            document.getElementById('cart').classList.add('open'); // Warenkorb öffnen beim Hinzufügen
+        }
+
+        function removeFromCart(id) {
+            const itemIndex = cart.findIndex(item => item.id === id);
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity--;
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartList = document.getElementById("cartList");
+            const cartTotalElement = document.getElementById("cartTotal");
+            const cartItemCountElement = document.getElementById("cartItemCount");
+            let total = 0;
+            let itemCount = 0;
+
+            cartList.innerHTML = "";
+            if (cart.length === 0) {
+                cartList.innerHTML = '<li style="justify-content: center; color: #b0b0b0;">Dein Warenkorb ist leer.</li>';
+            } else {
+                cart.forEach(item => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                        <span>${item.name} x${item.quantity}</span>
+                        <span>€${(item.price * item.quantity).toFixed(2)}</span>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">✖</button>
+                    `;
+                    cartList.appendChild(li);
+                    total += item.price * item.quantity;
+                    itemCount += item.quantity;
+                });
+            }
+
+            cartTotalElement.textContent = `Gesamt: €${total.toFixed(2)}`;
+            cartItemCountElement.textContent = itemCount;
+
+            const cartToggleButton = document.getElementById('cart-toggle');
+            if (itemCount > 0) {
+                cartToggleButton.style.borderColor = '#4CAF50';
+            } else {
+                cartToggleButton.style.borderColor = 'transparent';
+            }
+        }
+
+        // Warenkorb ein-/ausblenden
+        function toggleCart() {
+            const cartElement = document.getElementById("cart");
+            cartElement.classList.toggle("open");
+        }
+
+        // Zahlungsanweisungen Modal anzeigen
+        function showPaymentInstructions() {
+            const paymentModal = document.getElementById("paymentModal");
+            paymentModal.classList.add("visible");
+        }
+
+        // Zahlungsanweisungen Modal schließen
+        function closePaymentInstructions() {
+            const paymentModal = document.getElementById("paymentModal");
+            paymentModal.classList.remove("visible");
+        }
+
+        // Initialisiere: Lade Produkte vom Backend und zeige sie an
+        fetchProducts(); // Startet den Prozess, um Produkte von der API zu holen
+        updateCart(); // Stellt sicher, dass der Warenkorb bei Start leer ist
+    </script>
+</body>
+</html>
