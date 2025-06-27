@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minecraft Server Shop</title>
+  <style>
+    /* Reset & Grundfarben */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #121212;
+      color: #eee;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    a {
+      color: #f0c419;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: #1e1e1e;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f0c419;
+      letter-spacing: 3px;
+      user-select: none;
+      box-shadow: 0 3px 10px #f0c419aa;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      border-bottom: 3px solid #f0c419;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      max-width: fit-content;
+    }
+
+    /* Rang-Shop Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.8rem;
+    }
+    .product {
+      background: #222;
+      border-radius: 10px;
+      box-shadow: 0 0 12px #f0c419aa;
+      padding: 1.2rem;
+      text-align: center;
+      transition: box-shadow 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .product:hover {
+      box-shadow: 0 0 25px #f0c419cc;
+    }
+    .product h3 {
+      color: #f0c419;
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+    }
+    .product .price {
+      font-weight: 700;
+      margin: 0.5rem 0 1rem 0;
+      font-size: 1.1rem;
+      color: #eee;
+    }
+    .product button {
+      background: #f0c419;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .product button:hover {
+      background: #d1a510;
+    }
+
+    /* Modal Styles */
+    .modal-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .modal-bg.active {
+      display: flex;
+    }
+    .modal {
+      background: #222;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 30px #f0c419cc;
+      position: relative;
+      color: #eee;
+    }
+    .modal h3 {
+      margin-bottom: 1rem;
+      color: #f0c419;
+    }
+    .modal ul {
+      list-style: disc inside;
+      margin-bottom: 1.5rem;
+    }
+    .modal button.close {
+      position: absolute;
+      top: 10px; right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #f0c419;
+      cursor: pointer;
+    }
+
+    /* Über Uns */
+    #about p {
+      max-width: 650px;
+      margin: auto;
+      font-size: 1.1rem;
+      color: #ccc;
+      line-height: 1.8;
+    }
+
+    /* Custom Plugin Section */
+    .custom-plugin {
+      background: #1e1e1e;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #f0c419aa;
+      text-align: center;
+    }
+    .custom-plugin h3 {
+      margin-bottom: 1rem;
+      color: #f0c419;
+    }
+    .custom-plugin p {
+      margin-bottom: 1.5rem;
+      color: #ddd;
+    }
+    .custom-plugin button {
+      background: #f0c419;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 6px;
+      font-weight: 700;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-size: 1.1rem;
+    }
+    .custom-plugin button:hover {
+      background: #d1a510;
+    }
+
+    /* Footer */
+    footer {
+      background: #1e1e1e;
+      color: #666;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.5rem;
+      }
+      .product h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<header>Minecraft Server Shop</header>
+
+<main>
+
+  <!-- Rang Shop -->
+  <section id="ranks">
+    <h2>Ränge kaufen</h2>
+    <div class="products-grid" id="rank-list">
+      <!-- Ränge per JS eingefügt -->
+    </div>
+  </section>
+
+  <!-- Custom Plugin -->
+  <section id="custom-plugin">
+    <h2>Custom Plugin kaufen</h2>
+    <div class="custom-plugin">
+      <h3>Maßgeschneiderte Plugins für deinen Server</h3>
+      <p>Du möchtest ein individuelles Plugin mit speziellen Features? Kein Problem! Wir erstellen dir dein Wunsch-Plugin nach deinen Vorstellungen.</p>
+      <button onclick="alert('Kontaktieren Sie uns auf Discord oder per E-Mail für Custom Plugins!')">Jetzt anfragen</button>
+    </div>
+  </section>
+
+  <!-- Über Uns -->
+  <section id="about">
+    <h2>Über Uns</h2>
+    <p>
+      Herzlich willkommen in unserem Minecraft Server Shop!<br><br>
+      Hier kannst du einzigartige Items und maßgeschneiderte Plugins für dein ultimatives Minecraft-Erlebnis erwerben.<br><br>
+      Unser Ziel ist es, dir den besten Service und die hochwertigsten Produkte zu bieten, um deinen Abenteuern in der Welt von Minecraft das gewisse Etwas zu verleihen.<br><br>
+      Viel Spaß beim Stöbern!
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  &copy; 2025 Minecraft Server Shop - Alle Rechte vorbehalten
+</footer>
+
+<!-- Modal für Vorteile -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">&times;</button>
+    <h3 id="modal-title"></h3>
+    <ul id="modal-benefits"></ul>
+  </div>
+</div>
+
+<script>
+  // Rang-Daten
+  const ranks = [
+    {
+      name: 'Bronze',
+      price: '3,99€',
+      benefits: [
+        'Prefix Bronze im Chat',
+        'Zugang zu Bronze-Serverbereich',
+        'Exklusive Bronze-Rang-Items'
+      ]
+    },
+    {
+      name: 'Silber',
+      price: '5,99€',
+      benefits: [
+        'Prefix Silber im Chat',
+        'Zugang zu Silber-Serverbereich',
+        'Exklusive Silber-Rang-Items'
+      ]
+    },
+    {
+      name: 'Gold',
+      price: '8,99€',
+      benefits: [
+        'Prefix Gold im Chat',
+        'Zugang zu Gold-Serverbereich',
+        'Exklusive Gold-Rang-Items'
+      ]
+    },
+    {
+      name: 'Diamant',
+      price: '12,99€',
+      benefits: [
+        'Prefix Diamant im Chat',
+        'Zugang zu Diamant-Serverbereich',
+        'Exklusive Diamant-Rang-Items'
+      ]
+    },
+    {
+      name: 'Platin',
+      price: '16,99€',
+      benefits: [
+        'Prefix Platin im Chat',
+        'Zugang zu Platin-Serverbereich',
+        'Exklusive Platin-Rang-Items'
+      ]
+    },
+    {
+      name: 'Premium',
+      price: '21,99€',
+      benefits: [
+        'Prefix Premium im Chat',
+        'Zugang zu Premium-Serverbereich',
+        'Exklusive Premium-Rang-Items'
+      ]
+    },
+    {
+      name: 'VIP',
+      price: '29,99€',
+      benefits: [
+        'Prefix VIP im Chat',
+        'Zugang zu VIP-Serverbereich',
+        'Exklusive VIP-Rang-Items'
+      ]
+    },
+  ];
+
+  const rankListEl = document.getElementById('rank-list');
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBenefits = document.getElementById('modal-benefits');
+
+  // Ränge im Grid einfügen
+  ranks.forEach((rank, index) => {
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `
+      <h3>${rank.name}</h3>
+      <div class="price">${rank.price}</div>
+      <button onclick="openModal(${index})">Vorteile ansehen</button>
+    `;
+    rankListEl.appendChild(div);
+  });
+
+  // Modal öffnen
+  function openModal(index) {
+    const rank = ranks[index];
+    modalTitle.textContent = rank.name + ' Rang Vorteile';
+    modalBenefits.innerHTML = '';
+    rank.benefits.forEach(benefit => {
+      const li = document.createElement('li');
+      li.textContent = benefit;
+      modalBenefits.appendChild(li);
+    });
+    modal.classList.add('active');
+  }
+
+  // Modal schließen
+  function closeModal() {
+    modal.classList.remove('active');
+  }
+</script>
+
+</body>
+</html>
