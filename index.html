@@ -3,515 +3,506 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MCShop Ränge</title>
+  <title>Minecraft Server Shop</title>
   <style>
-    /* --- Basis Styles, Fonts, Farben wie shop.mcshopkeys.de --- */
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
+    /* Reset & Grundfarben */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
     body {
-      margin: 0; padding: 0; background: #111;
-      font-family: 'Montserrat', sans-serif;
+      background: #121212;
       color: #eee;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+    a {
+      color: #f0c419;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
     }
 
     header {
-      background: #222;
-      padding: 20px 0;
+      background: #1e1e1e;
+      padding: 1.5rem 2rem;
       text-align: center;
+      font-size: 2rem;
       font-weight: 700;
-      font-size: 2.8rem;
-      letter-spacing: 0.1em;
-      color: #5dd39e;
+      color: #f0c419;
+      letter-spacing: 3px;
       user-select: none;
-      text-transform: uppercase;
-      border-bottom: 3px solid #5dd39e;
+      box-shadow: 0 3px 10px #f0c419aa;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     main {
       max-width: 1100px;
-      margin: 40px auto 80px;
-      padding: 0 20px;
-      display: flex;
-      gap: 50px;
-      flex-wrap: wrap;
-      justify-content: center;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
     }
 
-    /* Ränge Liste - Grid mit Cards */
-    .ranks {
-      flex: 1 1 600px;
+    section {
+      margin-bottom: 4rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      border-bottom: 3px solid #f0c419;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      max-width: fit-content;
+    }
+
+    /* Rang-Shop Grid */
+    .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.8rem;
     }
-
-    .rank-card {
+    .product {
       background: #222;
-      border-radius: 12px;
-      border: 3px solid transparent;
+      border-radius: 10px;
+      box-shadow: 0 0 12px #f0c419aa;
+      padding: 1.2rem;
       text-align: center;
-      padding: 15px;
+      transition: box-shadow 0.3s ease;
       cursor: pointer;
-      transition: border-color 0.3s ease, background-color 0.3s ease;
-      user-select: none;
-    }
-    .rank-card:hover {
-      background: #333;
-      border-color: #5dd39e;
-    }
-
-    .rank-name {
-      font-weight: 700;
-      font-size: 1.4rem;
-      margin-bottom: 10px;
-      user-select: none;
-    }
-    .rank-price {
-      font-weight: 600;
-      color: #ccc;
-      margin-bottom: 15px;
-      user-select: none;
-    }
-
-    .btn-add {
-      background-color: #5dd39e;
-      border: none;
-      padding: 8px 12px;
-      font-weight: 700;
-      color: #111;
-      font-size: 1rem;
-      border-radius: 8px;
-      width: 100%;
-      cursor: pointer;
-      transition: background-color 0.25s ease;
-      user-select: none;
-    }
-    .btn-add:hover {
-      background-color: #4cb181;
-    }
-
-    /* Popup für Vorteile */
-    .popup-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    .popup {
-      background: #222;
-      border-radius: 16px;
-      max-width: 400px;
-      padding: 25px 30px;
-      box-shadow: 0 0 20px #5dd39e;
-      text-align: left;
-      color: #ddd;
-      user-select: none;
-      position: relative;
-    }
-    .popup h2 {
-      color: #5dd39e;
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-weight: 700;
-    }
-    .popup ul {
-      padding-left: 20px;
-      margin-bottom: 20px;
-    }
-    .popup ul li {
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-    .popup button.close-popup {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: transparent;
-      border: none;
-      font-size: 1.6rem;
-      color: #5dd39e;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    /* Warenkorb Styles */
-    aside.cart {
-      flex: 0 0 350px;
-      background: #222;
-      border-radius: 16px;
-      padding: 25px 20px;
-      box-shadow: 0 0 25px #5dd39e;
       user-select: none;
       display: flex;
       flex-direction: column;
-      height: fit-content;
+      justify-content: space-between;
+    }
+    .product:hover {
+      box-shadow: 0 0 25px #f0c419cc;
+    }
+    .product h3 {
+      color: #f0c419;
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+    }
+    .product .price {
+      font-weight: 700;
+      margin: 0.5rem 0 1rem 0;
+      font-size: 1.1rem;
+      color: #eee;
+    }
+    .product button {
+      background: #f0c419;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      margin-bottom: 0.3rem;
+    }
+    .product button:hover {
+      background: #d1a510;
     }
 
-    aside.cart h3 {
-      font-weight: 700;
-      color: #5dd39e;
-      margin: 0 0 15px 0;
-      font-size: 1.8rem;
+    /* Modal Styles */
+    .modal-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .modal-bg.active {
+      display: flex;
+    }
+    .modal {
+      background: #222;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 30px #f0c419cc;
+      position: relative;
+      color: #eee;
+    }
+    .modal h3 {
+      margin-bottom: 1rem;
+      color: #f0c419;
+    }
+    .modal ul {
+      list-style: disc inside;
+      margin-bottom: 1.5rem;
+    }
+    .modal button.close {
+      position: absolute;
+      top: 10px; right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #f0c419;
+      cursor: pointer;
+    }
+
+    /* Über Uns */
+    #about p {
+      max-width: 650px;
+      margin: auto;
+      font-size: 1.1rem;
+      color: #ccc;
+      line-height: 1.8;
+    }
+
+    /* Custom Plugin Section */
+    .custom-plugin {
+      background: #1e1e1e;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #f0c419aa;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .custom-plugin h3 {
+      margin-bottom: 1rem;
+      color: #f0c419;
+    }
+    .custom-plugin p {
+      margin-bottom: 1.5rem;
+      color: #ddd;
+      font-size: 1rem;
+    }
+    .custom-plugin button {
+      background: #f0c419;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 6px;
+      font-weight: 700;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-size: 1.1rem;
+      width: 100%;
+      max-width: 180px;
+    }
+    .custom-plugin button:hover {
+      background: #d1a510;
+    }
+
+    /* Footer */
+    footer {
+      background: #1e1e1e;
+      color: #666;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
       user-select: none;
     }
 
-    ul.cart-list {
-      list-style: none;
-      margin: 0 0 20px 0;
-      padding: 0;
+    /* Warenkorb Sidebar */
+    #cart {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 320px;
+      height: 100vh;
+      background: #222;
+      box-shadow: -3px 0 15px #f0c419bb;
+      padding: 1.5rem;
+      transition: right 0.3s ease;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
+    #cart.active {
+      right: 0;
+    }
+    #cart h2 {
+      color: #f0c419;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #f0c419;
+      padding-bottom: 0.5rem;
+    }
+    #cart .close-cart {
+      background: transparent;
+      border: none;
+      font-size: 1.8rem;
+      color: #f0c419;
+      cursor: pointer;
+      align-self: flex-end;
+      margin-bottom: 1rem;
+    }
+    #cart ul {
       flex-grow: 1;
       overflow-y: auto;
-      max-height: 300px;
+      list-style: none;
+      margin-bottom: 1rem;
     }
-
-    ul.cart-list li {
+    #cart ul li {
+      background: #333;
+      margin-bottom: 0.8rem;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid #444;
-      padding: 8px 0;
-      font-weight: 600;
+      align-items: center;
+      color: #eee;
     }
-
-    ul.cart-list li:last-child {
-      border-bottom: none;
-    }
-
-    ul.cart-list li .remove {
-      color: #e14c4c;
+    #cart ul li button.remove-item {
+      background: #d14444;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      padding: 0.3rem 0.7rem;
       cursor: pointer;
       font-weight: 700;
-      user-select: none;
+      transition: background 0.2s ease;
     }
-    ul.cart-list li .remove:hover {
-      color: #b73737;
+    #cart ul li button.remove-item:hover {
+      background: #a82b2b;
     }
-
-    .total {
-      font-weight: 700;
-      font-size: 1.3rem;
-      margin-bottom: 20px;
-      text-align: right;
-      user-select: none;
-    }
-
-    button.buy-btn {
-      background-color: #5dd39e;
-      border: none;
-      padding: 15px 0;
+    #cart .total {
       font-weight: 700;
       font-size: 1.2rem;
-      color: #111;
-      border-radius: 12px;
+      margin-bottom: 1rem;
+      color: #f0c419;
+      text-align: right;
+    }
+    #cart button.buy-btn {
+      background: #f0c419;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-weight: 700;
+      color: #222;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      user-select: none;
+      transition: background 0.2s ease;
+      width: 100%;
+      font-size: 1.1rem;
     }
-    button.buy-btn:hover:not(:disabled) {
-      background-color: #4cb181;
-    }
-    button.buy-btn:disabled {
-      background-color: #555;
-      cursor: not-allowed;
+    #cart button.buy-btn:hover {
+      background: #d1a510;
     }
 
-    .note {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-top: 12px;
-      text-align: center;
+    /* Warenkorb Button am Header */
+    #cart-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #f0c419;
+      color: #222;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 300;
+      box-shadow: 0 0 10px #f0c419aa;
+      transition: background 0.2s ease;
       user-select: none;
     }
-
-    /* Scrollbar style for cart */
-    ul.cart-list::-webkit-scrollbar {
-      width: 6px;
-    }
-    ul.cart-list::-webkit-scrollbar-track {
-      background: #111;
-    }
-    ul.cart-list::-webkit-scrollbar-thumb {
-      background: #5dd39e;
-      border-radius: 3px;
+    #cart-toggle:hover {
+      background: #d1a510;
     }
 
     /* Responsive */
-    @media (max-width: 900px) {
-      main {
-        flex-direction: column;
-        align-items: center;
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.5rem;
       }
-      aside.cart {
-        width: 100%;
-        max-width: 400px;
-        margin-top: 40px;
+      .product h3 {
+        font-size: 1.2rem;
       }
-      .ranks {
-        width: 100%;
+      #cart {
+        width: 100vw;
+        right: -100vw;
+      }
+      #cart.active {
+        right: 0;
+      }
+      #cart button.buy-btn {
+        font-size: 1.3rem;
+      }
+      #cart-toggle {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
 
-<header>MCShop Ränge</header>
+<header>Minecraft Server Shop</header>
+
+<button id="cart-toggle" aria-label="Warenkorb öffnen">Warenkorb (0)</button>
 
 <main>
-  <section class="ranks" aria-label="Ränge Auswahl" id="ranks"></section>
 
-  <aside class="cart" aria-label="Warenkorb">
-    <h3>Warenkorb</h3>
-    <ul class="cart-list" id="cart-list">
-      <li>Keine Artikel im Warenkorb</li>
-    </ul>
-    <div class="total" id="total-price">Gesamt: 0,00 €</div>
-    <button class="buy-btn" id="buy-btn" disabled>Kaufen</button>
-    <div class="note">Die Bearbeitung kann bis zu <strong>1 Tag</strong> dauern.</div>
-  </aside>
+  <!-- Rang Shop -->
+  <section id="ranks">
+    <h2>Ränge kaufen</h2>
+    <div class="products-grid" id="rank-list">
+      <!-- Ränge per JS eingefügt -->
+    </div>
+  </section>
+
+  <!-- Custom Plugin -->
+  <section id="custom-plugin">
+    <h2>Custom Plugin kaufen</h2>
+    <div class="custom-plugin">
+      <h3>Maßgeschneiderte Plugins für deinen Server</h3>
+      <p>Du möchtest ein individuelles Plugin mit speziellen Features? Kein Problem! Wir erstellen dir dein Wunsch-Plugin im gleichen Stil.</p>
+      <button id="buy-custom">Jetzt anfragen</button>
+    </div>
+  </section>
+
+  <!-- Über Uns -->
+  <section id="about">
+    <h2>Über Uns</h2>
+    <p>Wir sind dein Partner für hochwertige Minecraft Server Ränge und individuelle Plugins. Qualität und Service stehen bei uns an erster Stelle!</p>
+  </section>
+
 </main>
 
-<!-- Popup für Vorteile -->
-<div class="popup-bg" id="popup-bg" role="dialog" aria-modal="true" aria-labelledby="popup-title" tabindex="-1">
-  <div class="popup">
-    <button class="close-popup" aria-label="Popup schließen">&times;</button>
-    <h2 id="popup-title"></h2>
-    <ul id="popup-benefits"></ul>
+<!-- Modal für Vorteile -->
+<div class="modal-bg" id="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="close" onclick="closeModal()" aria-label="Schließen">&times;</button>
+    <h3 id="modal-title">Vorteile</h3>
+    <ul id="modal-benefits"></ul>
   </div>
 </div>
 
+<!-- Warenkorb Sidebar -->
+<aside id="cart" aria-label="Warenkorb">
+  <button class="close-cart" id="close-cart" aria-label="Warenkorb schließen">&times;</button>
+  <h2>Warenkorb</h2>
+  <ul id="cart-items"></ul>
+  <div class="total" id="cart-total">Gesamt: 0 €</div>
+  <button class="buy-btn" id="buy-btn">Jetzt kaufen</button>
+</aside>
+
 <script>
-  // Daten der Ränge
+  // Ränge mit Preisen und Vorteilen
   const ranks = [
-    { name: 'Bronze', price: 3.99, color: '#cd7f32', benefits: [
-      'Prefix: [Bronze]',
-      'Zugang zu Bronze-Server-Bereich',
-      'Kleiner Chat-Farbbonus'
-    ]},
-    { name: 'Silber', price: 5.99, color: '#c0c0c0', benefits: [
-      'Prefix: [Silber]',
-      'Zugang zu Silber-Server-Bereich',
-      'Mittlerer Chat-Farbbonus'
-    ]},
-    { name: 'Gold', price: 7.99, color: '#ffd700', benefits: [
-      'Prefix: [Gold]',
-      'Zugang zu Gold-Server-Bereich',
-      'Großer Chat-Farbbonus'
-    ]},
-    { name: 'Diamant', price: 9.99, color: '#b9f2ff', benefits: [
-      'Prefix: [Diamant]',
-      'Zugang zu Diamant-Server-Bereich',
-      'Exklusive Emotes im Chat'
-    ]},
-    { name: 'Platin', price: 11.99, color: '#e5e4e2', benefits: [
-      'Prefix: [Platin]',
-      'Zugang zu Platin-Server-Bereich',
-      'Spezieller Partikeleffekt'
-    ]},
-    { name: 'Premium', price: 13.99, color: '#ff6f61', benefits: [
-      'Prefix: [Premium]',
-      'Zugang zu Premium-Server-Bereich',
-      'Verbesserte Serverrechte'
-    ]},
-    { name: 'Vip', price: 15.99, color: '#4b0082', benefits: [
-      'Prefix: [VIP]',
-      'Zugang zu VIP-Server-Bereich',
-      'Exklusiver VIP Chat-Tag'
-    ]},
+    { name: 'Bronze', price: 3.99, benefits: ['Prefix Bronze', 'Zugang zu Bronze-Chat', 'Kleiner VIP-Bereich'] },
+    { name: 'Silber', price: 5.99, benefits: ['Prefix Silber', 'Zugang zu Silber-Chat', 'Mittlere VIP-Bereiche'] },
+    { name: 'Gold', price: 9.99, benefits: ['Prefix Gold', 'Zugang zu Gold-Chat', 'Großer VIP-Bereich', 'Eigene Farbe'] },
+    { name: 'Diamant', price: 14.99, benefits: ['Prefix Diamant', 'Zugang zu Diamant-Chat', 'Exklusive Items', 'Schneller Support'] },
+    { name: 'Platin', price: 19.99, benefits: ['Prefix Platin', 'Zugang zu Platin-Chat', 'Exklusive Gebäude', 'Extra XP'] },
+    { name: 'Premium', price: 24.99, benefits: ['Prefix Premium', 'Zugang zu Premium-Chat', 'Alle vorherigen Vorteile', 'Exklusiver Spawn'] },
+    { name: 'VIP', price: 29.99, benefits: ['Prefix VIP', 'Zugang zu VIP-Chat', 'Privater Bereich', 'VIP-Events'] },
   ];
 
-  const ranksContainer = document.getElementById('ranks');
-  const cartList = document.getElementById('cart-list');
-  const totalPriceEl = document.getElementById('total-price');
-  const buyBtn = document.getElementById('buy-btn');
-
-  // Warenkorb Array
+  // Warenkorb-Array
   let cart = [];
 
-  // Popup Elemente
-  const popupBg = document.getElementById('popup-bg');
-  const popupTitle = document.getElementById('popup-title');
-  const popupBenefits = document.getElementById('popup-benefits');
-  const closePopupBtn = popupBg.querySelector('.close-popup');
+  // DOM Elemente
+  const rankListEl = document.getElementById('rank-list');
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBenefits = document.getElementById('modal-benefits');
+  const cartToggle = document.getElementById('cart-toggle');
+  const cartSidebar = document.getElementById('cart');
+  const closeCartBtn = document.getElementById('close-cart');
+  const cartItemsEl = document.getElementById('cart-items');
+  const cartTotalEl = document.getElementById('cart-total');
+  const buyBtn = document.getElementById('buy-btn');
+  const buyCustomBtn = document.getElementById('buy-custom');
 
-  // Ränge rendern
-  function renderRanks() {
-    ranksContainer.innerHTML = '';
-    ranks.forEach((rank, idx) => {
-      const card = document.createElement('div');
-      card.className = 'rank-card';
-      card.style.borderColor = rank.color;
-      card.tabIndex = 0;
-      card.setAttribute('role', 'button');
-      card.setAttribute('aria-pressed', 'false');
-      card.setAttribute('aria-label', `Details zu Rang ${rank.name}`);
+  // Rang-Items anzeigen
+  ranks.forEach((rank, index) => {
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `
+      <h3>${rank.name}</h3>
+      <div class="price">${rank.price.toFixed(2)} €</div>
+      <button onclick="openModal(${index})">Vorteile ansehen</button>
+      <button onclick="addToCart(${index})" aria-label="In den Warenkorb legen: ${rank.name}">In den Warenkorb</button>
+    `;
+    rankListEl.appendChild(div);
+  });
 
-      card.innerHTML = `
-        <div class="rank-name" style="color:${rank.color}">${rank.name}</div>
-        <div class="rank-price">${rank.price.toFixed(2)} €</div>
-        <button class="btn-add" aria-label="Füge ${rank.name} dem Warenkorb hinzu">In den Warenkorb</button>
-      `;
-
-      // Popup öffnen bei Klick auf Karte (außer Button)
-      card.addEventListener('click', e => {
-        if (e.target.tagName !== 'BUTTON') openPopup(rank);
-      });
-
-      // Tastatur: Enter/Space öffnet Popup
-      card.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openPopup(rank);
-        }
-      });
-
-      // Button "In den Warenkorb" click
-      card.querySelector('button').addEventListener('click', e => {
-        e.stopPropagation();
-        addToCart(rank);
-      });
-
-      ranksContainer.appendChild(card);
-    });
-  }
-
-  // Popup öffnen
-  function openPopup(rank) {
-    popupTitle.textContent = rank.name + ' Vorteile';
-    popupBenefits.innerHTML = '';
+  // Modal öffnen
+  function openModal(index) {
+    const rank = ranks[index];
+    modalTitle.textContent = rank.name + ' Rang Vorteile';
+    modalBenefits.innerHTML = '';
     rank.benefits.forEach(benefit => {
       const li = document.createElement('li');
       li.textContent = benefit;
-      popupBenefits.appendChild(li);
+      modalBenefits.appendChild(li);
     });
-    popupBg.style.display = 'flex';
-    popupBg.focus();
+    modal.classList.add('active');
+  }
+  function closeModal() {
+    modal.classList.remove('active');
   }
 
-  // Popup schließen
-  closePopupBtn.addEventListener('click', () => {
-    popupBg.style.display = 'none';
-  });
-  popupBg.addEventListener('click', e => {
-    if (e.target === popupBg) {
-      popupBg.style.display = 'none';
-    }
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && popupBg.style.display === 'flex') {
-      popupBg.style.display = 'none';
-    }
-  });
-
-  // Zum Warenkorb hinzufügen
-  function addToCart(rank) {
-    if (!cart.find(item => item.name === rank.name)) {
-      cart.push(rank);
-      renderCart();
-    }
+  // Warenkorb-Logik
+  function addToCart(index) {
+    const item = ranks[index];
+    cart.push(item);
+    updateCart();
+    alert(`${item.name} wurde in den Warenkorb gelegt.`);
   }
-
-  // Aus Warenkorb entfernen
-  function removeFromCart(rankName) {
-    cart = cart.filter(item => item.name !== rankName);
-    renderCart();
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
   }
-
-  // Warenkorb rendern
-  function renderCart() {
-    cartList.innerHTML = '';
-    if (cart.length === 0) {
-      cartList.innerHTML = '<li>Keine Artikel im Warenkorb</li>';
-      buyBtn.disabled = true;
-      totalPriceEl.textContent = 'Gesamt: 0,00 €';
-      return;
-    }
-
-    cart.forEach(rank => {
+  function updateCart() {
+    // Items im Warenkorb anzeigen
+    cartItemsEl.innerHTML = '';
+    cart.forEach((item, i) => {
       const li = document.createElement('li');
-      li.textContent = `${rank.name} — ${rank.price.toFixed(2)} €`;
-      const rmBtn = document.createElement('span');
-      rmBtn.textContent = '×';
-      rmBtn.className = 'remove';
-      rmBtn.title = `Entferne ${rank.name} aus dem Warenkorb`;
-      rmBtn.setAttribute('role', 'button');
-      rmBtn.tabIndex = 0;
-      rmBtn.addEventListener('click', () => removeFromCart(rank.name));
-      rmBtn.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          removeFromCart(rank.name);
-        }
-      });
-      li.appendChild(rmBtn);
-      cartList.appendChild(li);
+      li.innerHTML = `
+        <span>${item.name} - ${item.price.toFixed(2)} €</span>
+        <button class="remove-item" onclick="removeFromCart(${i})" aria-label="Artikel entfernen">✕</button>
+      `;
+      cartItemsEl.appendChild(li);
     });
-
+    // Gesamtpreis berechnen
     const total = cart.reduce((sum, item) => sum + item.price, 0);
-    totalPriceEl.textContent = `Gesamt: ${total.toFixed(2)} €`;
-    buyBtn.disabled = false;
+    cartTotalEl.textContent = `Gesamt: ${total.toFixed(2)} €`;
+    // Warenkorb-Button aktualisieren
+    cartToggle.textContent = `Warenkorb (${cart.length})`;
   }
 
-  // Kaufen Button Click
-  buyBtn.addEventListener('click', () => {
-    if (cart.length === 0) return;
-
-    let ign = prompt('Bitte gib deinen Minecraft Spielernamen ein:', '');
-    if (!ign || ign.trim().length < 2) {
-      alert('Bitte einen gültigen Spielernamen eingeben.');
-      return;
-    }
-    ign = ign.trim();
-
-    // Bereite Daten für Discord Webhook
-    const rankNames = cart.map(r => r.name).join(', ');
-    const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
-
-    const webhookUrl = "https://discord.com/api/webhooks/1388261778189975572/iy9o4kZJvGDmrgcHar98imGe-rCVadS0DRPVCTSHuuX6VdLQWgWOn0QlhqG-zf1KD7Xh";
-
-    const data = {
-      username: "MCShop Bot",
-      avatar_url: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
-      embeds: [{
-        title: "Neue Rang-Bestellung",
-        color: 0x5dd39e,
-        fields: [
-          { name: "Spieler", value: ign, inline: true },
-          { name: "Ränge", value: rankNames, inline: true },
-          { name: "Gesamtpreis", value: total + " €", inline: false },
-          { name: "Hinweis", value: "Die Bearbeitung kann bis zu 1 Tag dauern." }
-        ],
-        timestamp: new Date().toISOString()
-      }]
-    };
-
-    fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    .then(response => {
-      if (response.ok) {
-        alert('Bestellung erfolgreich gesendet! Bitte habe etwas Geduld.');
-        cart = [];
-        renderCart();
-      } else {
-        alert('Fehler beim Senden der Bestellung. Bitte versuche es später erneut.');
-      }
-    })
-    .catch(() => {
-      alert('Netzwerkfehler beim Senden der Bestellung.');
-    });
+  // Warenkorb öffnen/schließen
+  cartToggle.addEventListener('click', () => {
+    cartSidebar.classList.toggle('active');
+  });
+  closeCartBtn.addEventListener('click', () => {
+    cartSidebar.classList.remove('active');
   });
 
-  // Seite initialisieren
-  renderRanks();
-  renderCart();
+  // Kaufen-Button (Demo)
+  buyBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+      alert('Dein Warenkorb ist leer!');
+      return;
+    }
+    alert(`Danke für deinen Kauf von ${cart.length} Artikel(n) mit einem Gesamtpreis von ${cart.reduce((sum,item) => sum+item.price, 0).toFixed(2)} €!`);
+    cart = [];
+    updateCart();
+    cartSidebar.classList.remove('active');
+  });
 
+  // Custom Plugin Button (z.B. Link zu Discord oder Kontaktseite)
+  buyCustomBtn.addEventListener('click', () => {
+    alert('Bitte kontaktiere uns über Discord oder per E-Mail für dein individuelles Plugin!');
+  });
 </script>
 
 </body>
